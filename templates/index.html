@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora de Precio de Seguro</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Segoe UI,Tahoma,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+    .container{max-width:800px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.1);overflow:hidden;animation:slideUp .6s ease-out}
+    .header{background:linear-gradient(135deg,#2c3e50 0%,#34495e 100%);color:#fff;padding:40px 30px;text-align:center}
+    .header h1{font-size:2.2rem;margin-bottom:10px;font-weight:300}
+    .form-container{padding:40px 30px}
+    .section-title{font-size:1.3rem;color:#2c3e50;margin:0 0 15px;border-bottom:2px solid #e0e6ed;padding-bottom:8px;font-weight:600}
+    .form-group{display:flex;flex-direction:column;margin:18px 0}
+    .form-group label{font-weight:600;color:#2c3e50;margin-bottom:8px}
+    .form-group input{padding:14px;border:2px solid #e0e6ed;border-radius:10px;font-size:1rem;background:#f8f9fa;transition:.3s}
+    .form-group input:focus{outline:none;border-color:#667eea;background:#fff;box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+    .submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border:none;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.5px;margin-top:10px}
+    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(102,126,234,.3)}
+    .price-display{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:26px;border-radius:15px;text-align:center;margin:22px 0}
+    .price-display h3{font-size:1.05rem;margin-bottom:8px;opacity:.9}
+    .price-amount{font-size:2.4rem;font-weight:800}
+    .note{font-size:.9rem;opacity:.8;margin-top:6px}
+    .error{background:#fff3f3;color:#b00020;border-left:4px solid #b00020;padding:14px;border-radius:0 8px 8px 0;margin:14px 0}
+    @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Calculadora de Precio de Seguro</h1>
+      <p>Ingresa tu edad para estimar el costo del seguro</p>
+    </div>
+
+    <div class="form-container">
+      <form method="POST">
+        <h2 class="section-title">Datos de Entrada</h2>
+
+        <div class="form-group">
+          <label for="age">Edad</label>
+          <input id="age" name="age" type="number" min="1" max="120" step="1" required
+                 placeholder="Ej: 35" value="{{ age or '' }}">
+        </div>
+
+        {% if error %}
+          <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if result is not none %}
+          <div class="price-display">
+            <h3>Precio Estimado del Seguro</h3>
+            <div class="price-amount">$ {{ '%.2f'|format(result) }}</div>
+            <div class="note">Estimación basada en un modelo de ML entrenado.</div>
+          </div>
+        {% endif %}
+
+        <button type="submit" class="submit-btn">Calcular</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
